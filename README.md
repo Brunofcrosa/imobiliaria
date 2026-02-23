@@ -1,216 +1,148 @@
-1. Geração Automática de Códigos
-Os códigos são gerados automaticamente no formato "XX000YY", onde "XX" são as duas primeiras letras da classe, "000" é um número sequencial (incrementado a cada novo registro) e "YY" são as duas últimas letras da classe.
-Cliente: codigoCliente (ex: "CL001TE")
-Corretor: codigoCorretor (ex: "CO001OR")
-Imóvel: codigoImovel (ex: "IM001EL")
-Proprietário: codigoProprietario (ex: "PR001IO")
-Transação: codigoTransacao (ex: "TR001AO")
-Visita: codigoVisita (ex: "VI001TA")
+<div align="center">
 
-2. Regras de Negócio de Transações
-As transações de imóveis são regidas por um conjunto de validações e lógicas específicas:
-Imóvel em Transação Ativa:
-Não é permitido cadastrar uma nova transação (seja venda ou aluguel) para um imóvel que já possua uma transação.
-Disponibilidade para Locação:
-Uma transação de aluguel só pode ser criada se o imóvel estiver marcado como disponível.
-Cálculo de Comissão:
-A comissão do corretor é calculada com base no tipo de transação e na característica do imóvel (zona_valorizacao):
-Venda:
-Imóvel em "Zona de Valorização": Comissão de 7% sobre o valor de venda.
-Demais imóveis: Comissão de 5% sobre o valor de venda.
-Aluguel:
-Imóvel em "Zona de Valorização": Comissão de 10% sobre o valor de venda.
-Demais imóveis: Comissão de 8% sobre o valor de venda.
-Exclusão de Visitas Após Venda: Quando uma transação de venda é salva, todas as visitas futuras agendadas para o imóvel em questão, a partir da data, são automaticamente removidas.
-Restrição de Alteração do Valor de Venda: O valor de venda de um imóvel não pode ser modificado se houver uma transação associada a ele.
+# 🏠 Imobiliária — Sistema de Gestão
 
-3. Regras de Negócio de Visitas
-Agendamento em Imóvel com Venda Pendente: Não é permitido agendar visitas para um imóvel se estiver "Em Confirmação de Venda".
-Conflito de Horário do Corretor: Um corretor não pode ter múltiplas visitas agendadas para o mesmo imóvel no mesmo dia com um intervalo menor que 30 minutos entre elas.
-Data de Agendamento: A data para agendamento de uma visita deve ser igual ou posterior à data atual.
+**Sistema completo de gestão imobiliária desenvolvido com Django — Projeto Integrador.**
 
-4. Regras de Negócio de Imóveis
-Validação de Áreas:
-A área privativa não pode ser maior que a área total.
-A área útil não pode ser maior que a área total.
-Status do Imóvel: O status do imóvel é dinâmico:
-"Em Confirmação de Venda": Se houver uma transação de venda pendente para o imóvel.
-"Não Disponível para Locação": Se o atributo disponível locação for falso.
-Valorização do Imóvel: Se um imóvel estiver em uma zona valorização, seu valor de venda é ajustado em 10%.
-Imóvel Desatualizado: Um imóvel é considerado "desatualizado" se a data da sua última atualização for anterior a seis meses da data atual.
-Restrições de Exclusão: Não é possível excluir um imóvel se existirem visitas ou transações associadas a ele.
+[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-4.x-092E20?logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://2025-cppig-101-bruno.vercel.app)
 
-5. Regras de Negócio de Pessoas (Cliente, Corretor, Proprietário)
-As entidades que representam pessoas no sistema (Cliente, Corretor, Proprietário) compartilham algumas regras de negócio essenciais:
-Formato de Telefone: O campo telefone aceita 10 ou 11 dígitos numéricos (incluindo o DDD) e é automaticamente formatado para (DD) XXXXX-XXXX ou (DD) XXXX-XXXX.
-Unicidade do E-mail: O campo e-mail deve ser único para cada pessoa cadastrada no sistema.
+🔗 **[Acesse o sistema ao vivo](https://2025-cppig-101-bruno.vercel.app)**
 
+</div>
 
+---
 
+## 📋 Sobre o Projeto
 
+O **Sistema Imobiliária** é uma aplicação web de gestão imobiliária desenvolvida com **Django** como Projeto Integrador do curso de Sistemas para Internet da **UFSM**. O sistema gerencia todo o ciclo imobiliário: desde o cadastro de imóveis e pessoas até transações e visitas agendadas.
 
+---
 
+## 🚀 Stack Tecnológica
 
+| Camada | Tecnologia |
+|---|---|
+| Backend | Python 3 + Django |
+| Banco de Dados | SQLite3 |
+| Frontend | Django Templates + HTML/CSS |
+| Deploy | Vercel |
+| IDE | JetBrains (PyCharm) |
 
+---
 
+## 📁 Estrutura de Módulos
 
+```
+imobiliaria/
+├── cliente/              # App de clientes
+├── corretores/           # App de corretores
+├── home/                 # Página inicial
+├── imovel/               # App de imóveis
+├── imobiliaria/          # Configurações do projeto (settings, urls)
+├── pessoa/               # App de pessoas (base)
+├── proprietarios/        # App de proprietários
+├── transacao/            # App de transações (venda/aluguel)
+├── visita/               # App de agendamento de visitas
+├── static/               # Arquivos estáticos (CSS, JS, imagens)
+├── manage.py
+├── requirements.txt
+├── vercel.json
+└── db.sqlite3
+```
 
+---
 
+## ✨ Funcionalidades
 
+- 📰 **Imóveis**: Cadastro, listagem e filtragem de imóveis (venda/aluguel)
+- 👥 **Clientes**: Gerenciamento completo de clientes
+- 💼 **Corretores**: Controle de corretores e suas carteiras
+- 🏢 **Proprietários**: Cadastro e gestão de proprietários
+- 💰 **Transações**: Registro de vendas e alugueis
+- 📊 **Diagrama de Classes**: Documentação estrutural incluída no repositório
+- 🗓️ **Visitas**: Agendamento de visitas aos imóveis
+- 🔐 **Autenticação**: Sistema de login e permissões Django
 
+---
 
+## ⚙️ Rodando Localmente
 
+### Pré-requisitos
 
+- Python `>= 3.10`
+- pip
 
+### Instalação
 
+```bash
+# Clone o repositório
+git clone https://github.com/Brunofcrosa/imobiliaria.git
+cd imobiliaria
 
+# Crie e ative o ambiente virtual
+python -m venv venv
+source venv/bin/activate       # Linux/macOS
+venv\Scripts\activate          # Windows
 
+# Instale as dependências
+pip install -r requirements.txt
 
+# Execute as migrations
+python manage.py migrate
 
+# Crie um superusuário (opcional)
+python manage.py createsuperuser
 
+# Inicie o servidor
+python manage.py runserver
+```
 
+Acesse [http://localhost:8000](http://localhost:8000)
 
+---
 
+## 🌐 Deploy
 
+A aplicação está configurada para deploy na **Vercel** via `vercel.json`. Todo push na branch `master` pode acionar o pipeline.
 
+```bash
+# Deploy manual via Vercel CLI
+vercel --prod
+```
 
+---
 
+## 📚 Documentação
 
+Os diagramas de classe do sistema estão disponíveis no repositório:
 
+- [`Diagrama de classe antigo.pdf`](./Diagrama%20de%20classe%20antigo.pdf) — versão inicial
+- [`Diagrama de classe novo.pdf`](./Diagrama%20de%20classe%20novo.pdf) — versão atual
 
+---
 
+## 📣 Melhorias Futuras
 
+- [ ] Migrar banco para PostgreSQL em produção
+- [ ] Implementar API REST com Django REST Framework
+- [ ] Adicionar testes unitários e de integração
+- [ ] Dashboard com métricas e relatórios
+- [ ] Filtro avançado de imóveis (preço, localização, tipo)
 
+---
 
+## 🎓 Contexto Acadêmico
 
+Projeto desenvolvido como **Projeto Integrador** do curso de Sistemas para Internet — **UFSM (Universidade Federal de Santa Maria)**.
 
+---
 
+## 👤 Autor
 
+**Bruno Fetzer** — Desenvolvedor Full Stack
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+[![GitHub](https://img.shields.io/badge/GitHub-Brunofcrosa-181717?logo=github)](https://github.com/Brunofcrosa)
+[![Portfolio](https://img.shields.io/badge/Portfolio-brunofcrosa-blue)](https://portfolio-brunofcrosas-projects.vercel.app)
